@@ -22,3 +22,10 @@ class Monster:
             hero.gain_xp(xp_gain)
             del self.monsters[pos] 
             hero.message = f" A battu K +{xp_gain} XP"
+
+    def barre_de_vie(self, actuel, maximum, length=20, symbol="#", label="HP"):
+        percent = max(0,actuel / maximum)
+        filled = int(length * percent)
+        #je veux construire visuellement la barre de vie
+        bar =
+        return f" [{bar}] {actuel}/{maximum}"
