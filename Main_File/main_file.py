@@ -8,12 +8,22 @@ import monstre
 def main():
     game_map = map.GameMap(20,10, 4)
     hero = Hero.Hero(1,1)
-    monster_manager = monstre.Monster()
+    monster_manager = monstre.Monster(game_map)
+    monster_manager.spawn_monsters(3)
+
+
 
     while hero.hp > 0:
         game_map.display(hero, monster_manager)
-        monster_manager.avancer_monstres(game_map,hero)
 
+        print()
+        print(hero.afficher_hp())
+        if hero.message:
+            print("\n" + hero.message)
+            hero.message = ""
+
+
+        monster_manager.avancer_monstres(game_map,hero)
        
         action = input("Z (Haut), S (Bas), Q (Gauche), D (Droite) : ").upper()
        
