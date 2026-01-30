@@ -4,9 +4,18 @@ class Hero:
         self.x = x
         self.y = y
         self.hp = 100
+        self.maxhp = 100
+        self.message = ""
         self.strength = 16
-        self.gold = 0   
+        self.coin = 0   
         self.message = "Bienvenue dans le donjon !"
+
+    def afficher_hp(self):
+        percent = self.hp / self.maxhp
+        filled = int(20 * percent)
+        bar = "#" * filled + "-" * (20 - filled)
+        return f"Héros HP [{bar}] {self.hp}/{self.maxhp}"
+
 
     def move(self, dx, dy, game_map, monsters, monster_manager):
         new_x, new_y = self.x + dx, self.y + dy

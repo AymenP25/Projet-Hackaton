@@ -1,6 +1,26 @@
+import random
 class Monster:
-    def __init__(self):
+    def __init__(self, game_map):
+        self.game_map = game_map
+        self.monsters = {}
         self.monsters = {(3, 2): {'vie': 15, 'max_vie': 15, 'name': 'K'}}
+
+    def spawn_monsters(self, n):
+        placed = 0
+
+        while placed < n:
+            x = random.randint(1, self.game_map.largeur - 2)
+            y = random.randint(1, self.game_map.hauteur - 2)
+
+            if self.game_map.is_walkable(x, y) and (x, y) not in self.monsters:
+                monster_type = random.choice(['K', 'M'])
+                self.monsters[(x, y)] = {
+                    "name": monster_type,
+                    "vie": 15 if monster_type == 'K' else 10,
+                    "max_vie": 15 if monster_type == 'K' else 10,
+                    "dead": False
+                }
+                placed += 1
 
     def attack_monster(self, hero, pos):
         monster = self.monsters[pos]
@@ -35,6 +55,28 @@ class Monster:
         bar = (symbol * filled) + ("-" * (length - filled))
         #affichage final [###---]"
         return f"{label} [{bar}] {actuel}/{maximum}"
+
+
+    def barre_de_vie(self, actuel, maximum, length=20, symbol="#", label="HP"):
+        percent = max(0, min(1.0, actuel / maximum))
+        filled = int(length * percent)
+        bar = symbol * filled + "-" * (length - filled)
+        return f"{label} [{bar}] {actuel}/{maximum}"
+
+    def afficher_barres(self):
+        lignes = []
+        for (x, y), m in self.monsters.items():
+            if m.get("dead"):
+                continue
+
+            bar = self.barre_de_vie(
+                m['vie'],
+                m['max_vie'],
+                label=m['name']
+            )
+            lignes.append(f"{m['name']} ({x},{y}) {bar}")
+
+        return lignes
 
     def avancer_monstres(self, game_map, hero):
         """Déplacement aléatoire de tous les monstres sur la carte"""

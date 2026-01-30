@@ -4,16 +4,26 @@ WALL = '#'
 FLOOR = '.'
 PLAYER = '@'
 ENEMIES = ['K', 'M']
+COIN = '$'
 
 
 class GameMap:
     def __init__(self, largeur, hauteur, ennemicpt):
         self.largeur = largeur
         self.hauteur = hauteur
+
+        self.ennemicpt = ennemicpt
+
+
         self.tab = self._create_empty_map()
         self.player_pos = (1, 1)
-        self.ennemis = []
 
+
+        self.ennemis = []
+        self.coins = []
+
+
+        self._place_coins(3)
         
 
     def _create_empty_map(self):
@@ -44,6 +54,17 @@ class GameMap:
                     "y": y,
                     "hp": 5
                 })
+                placed += 1
+
+    def _place_coins(self, count):
+        placed = 0
+        while placed < count:
+            x = random.randint(1, self.largeur - 2)
+            y = random.randint(1, self.hauteur - 2)
+
+            if self.tab[y][x] == FLOOR:
+                self.tab[y][x] = COIN
+                self.coins.append((x, y))
                 placed += 1
 
     def display(self, hero, monster_manager):
