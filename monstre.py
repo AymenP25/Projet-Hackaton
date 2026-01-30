@@ -46,17 +46,17 @@ class Monster:
             
             nx, ny = x + dx, y + dy
             
-            # 2. Vérifier si le mouvement est possible
-            # On vérifie : si c'est marchable, si ce n'est pas la case du héros,
-            # et si un autre monstre n'a pas déjà pris cette place
+            #on check si le mouvement est possible
+            # On vérifie si c'est pas un mursi c'est pas la case du héros,
+            # et si un autre monstre n'est pas la
             if (game_map.is_walkable(nx, ny) and (nx, ny) != (hero.x, hero.y) and 
                 (nx, ny) not in nouvelles_positions):
                 
-                # Le monstre bouge
+                #bouger
                 nouvelles_positions[(nx, ny)] = stats
             else:
-                # Le mouvement est bloqué, le monstre reste où il était
+                #bloqué
                 nouvelles_positions[(x, y)] = stats
         
-        # On met à jour le dictionnaire principal
+        #MAJ
         self.monsters = nouvelles_positions
