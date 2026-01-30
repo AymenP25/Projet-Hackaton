@@ -12,6 +12,7 @@ def main():
 
     while hero.hp > 0:
         game_map.display(hero, monster_manager)
+        monster_manager.avancer_monstres(game_map,hero)
 
        
         action = input("Z (Haut), S (Bas), Q (Gauche), D (Droite) : ").upper()

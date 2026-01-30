@@ -4,20 +4,26 @@ class Hero:
         self.x = x
         self.y = y
         self.hp = 100
-        self.strengh = 16
+        self.strength = 16
         self.gold = 0   
         self.message = "Bienvenue dans le donjon !"
 
-    def move(self, dx, dy, game_map, items, monsters, monster_manager):
+    def move(self, dx, dy, game_map, monsters, monster_manager):
         new_x, new_y = self.x + dx, self.y + dy
+        print("Héros tente d'aller en", new_x, new_y)
+        print("Monstres:", monster_manager.monsters.keys())
        
         #regarde si le héros se bat
-        if (new_x, new_y) in monsters:
+        if (new_x, new_y) in monster_manager.monsters:
             monster_manager.attack_monster(self, (new_x, new_y))
             return
+
 
         #regarde si il y a un mur ou si le déplacement est ok
         if game_map.is_walkable(new_x, new_y):
             self.x, self.y = new_x, new_y
+
+
+    
         
    
