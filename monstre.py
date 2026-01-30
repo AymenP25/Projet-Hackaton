@@ -24,18 +24,18 @@ class Monster:
             hero.message = f" A battu K +{xp_gain} XP"
 
     def barre_de_vie(self, actuel, maximum, length=20, symbol="#", label="HP"):
-    # On s'assure que le pourcentage est entre 0 et 1 pour éviter les bugs
-    percent = min(1.0, actuel / maximum)
-    filled = int(length * percent)
-    #barre visuelle: partie pleine avec le symbole et la partie vide avec des tirets
-    bar = (symbol * filled) + ("-" * (length - filled))
-    #affichage final [###---]"
-    return f"{label} [{bar}] {actuel}/{maximum}"
+        # On s'assure que le pourcentage est entre 0 et 1 pour éviter les bugs
+        percent = min(1.0, actuel / maximum)
+        filled = int(length * percent)
+        #barre visuelle: partie pleine avec le symbole et la partie vide avec des tirets
+        bar = (symbol * filled) + ("-" * (length - filled))
+        #affichage final [###---]"
+        return f"{label} [{bar}] {actuel}/{maximum}"
 
     def avancer_monstres(self, game_map, hero):
         """Déplacement aléatoire de tous les monstres sur la carte"""
         import random 
-        
+         
         #nouveau dico pour stocker les nouvelles positions
         nouvelles_positions = {}
 
