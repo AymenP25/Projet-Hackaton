@@ -7,7 +7,7 @@ class Hero:
         self.maxhp = 100
         self.message = ""
         self.strength = 16
-        self.gold = 0   
+        self.coin = 0   
         self.message = "Bienvenue dans le donjon !"
 
     def afficher_hp(self):
