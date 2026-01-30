@@ -24,8 +24,39 @@ class Monster:
             hero.message = f" A battu K +{xp_gain} XP"
 
     def barre_de_vie(self, actuel, maximum, length=20, symbol="#", label="HP"):
-        percent = max(0,actuel / maximum)
-        filled = int(length * percent)
-        #je veux construire visuellement la barre de vie
-        bar =
-        return f" [{bar}] {actuel}/{maximum}"
+    # On s'assure que le pourcentage est entre 0 et 1 pour éviter les bugs
+    percent = min(1.0, actuel / maximum)
+    filled = int(length * percent)
+    #barre visuelle: partie pleine avec le symbole et la partie vide avec des tirets
+    bar = (symbol * filled) + ("-" * (length - filled))
+    #affichage final [###---]"
+    return f"{label} [{bar}] {actuel}/{maximum}"
+
+    def avancer_monstres(self, game_map, hero):
+        """Déplacement aléatoire de tous les monstres sur la carte"""
+        import random 
+        
+        #nouveau dico pour stocker les nouvelles positions
+        nouvelles_positions = {}
+
+        for (x, y), stats in self.monsters.items():
+            #direction aleatoire: Haut, Bas, Gauche, Droite ou Rester sur place
+            directions = [(0, 1), (0, -1), (1, 0), (-1, 0), (0, 0)]
+            dx, dy = random.choice(directions)
+            
+            nx, ny = x + dx, y + dy
+            
+            # 2. Vérifier si le mouvement est possible
+            # On vérifie : si c'est marchable, si ce n'est pas la case du héros,
+            # et si un autre monstre n'a pas déjà pris cette place
+            if (game_map.is_walkable(nx, ny) and (nx, ny) != (hero.x, hero.y) and 
+                (nx, ny) not in nouvelles_positions):
+                
+                # Le monstre bouge
+                nouvelles_positions[(nx, ny)] = stats
+            else:
+                # Le mouvement est bloqué, le monstre reste où il était
+                nouvelles_positions[(x, y)] = stats
+        
+        # On met à jour le dictionnaire principal
+        self.monsters = nouvelles_positions
