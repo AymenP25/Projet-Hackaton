@@ -1,0 +1,60 @@
+import random
+
+WALL = '#'
+FLOOR = '.'
+PLAYER = '@'
+ENEMIES = ['K', 'M']
+
+
+class GameMap:
+    def _init_(self, largeur, hauteur, ennemicpt):
+        self.largeur = largeur
+        self.hauteur = hauteur
+        self.ennemicpt = ennemicpt
+        self.tab = self._create_empty_map()
+        self.player_pos = (1, 1)
+        self.ennemis = []
+
+        self._place_player()
+        self._place_enemies()
+
+    def _create_empty_map(self):
+        """Crée une map entourée de murs"""
+        tab = []
+        for y in range(self.hauteur):
+            row = []
+            for x in range(self.largeur):
+                if x == 0 or y == 0 or x == self.largeur - 1 or y == self.hauteur - 1:
+                    row.append(WALL)
+                else:
+                    row.append(FLOOR)
+            grid.append(row)
+        return grid
+
+    def _place_player(self):
+        x, y = self.player_pos
+        self.tab[y][x] = PLAYER
+
+    def _place_enemies(self):
+        placed = 0
+        while placed < self.ennemicpt:
+            x = random.randint(1, self.largeur - 2)
+            y = random.randint(1, self.hauteur - 2)
+
+            if self.grid[y][x] == FLOOR:
+                ennemi = random.choice(ENEMIES)
+                self.tab[y][x] = ennemi
+                self.ennemis.append({
+                    "type": ennemi,
+                    "x": x,
+                    "y": y,
+                    "hp": 5
+                })
+                placed += 1
+
+    def display(self):
+        for row in self.tab:
+            print("".join(row))
+
+game_map = GameMap(largeur=20, hauteur=10, ennemicpt=4)
+game_map.display()
